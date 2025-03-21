@@ -1,0 +1,23 @@
+.title-center {
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.title-center > app-menu-bar{
+    margin-right: 50px;
+}
+
+
+
+.mat-mdc-card-title {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 50px;
+}
+
+.card-title {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+}
