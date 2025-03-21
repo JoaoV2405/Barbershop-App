@@ -31,7 +31,7 @@ Este é um projeto **FullStack** desenvolvido para o programa **Decola Tech**. O
 
 ## 🛠️ **Tecnologias Utilizadas**
 
-- **Frontend:** Angular  
+- **Frontend:** Angular e Bootstrap
 - **Backend:** Spring Boot  
 - **Banco de Dados:** PostgreSQL  
 - **Gerenciamento de Dependências:** Gradle  
