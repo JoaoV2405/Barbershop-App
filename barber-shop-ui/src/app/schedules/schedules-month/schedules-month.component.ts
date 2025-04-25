@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { ClientScheduleAppointmentModel, SaveScheduleModel, ScheduleAppointementMonthModel, SelectClientModel } from '../schedule.models';
 import { SaveScheduleRequest } from '../../services/api-client/schedules/schedule.models';
 
+
 @Component({
   selector: 'app-schedules-month',
   imports: [ScheduleCalendarComponent],

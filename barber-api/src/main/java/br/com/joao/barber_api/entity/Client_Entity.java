@@ -3,6 +3,10 @@ package br.com.joao.barber_api.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +49,12 @@ public class Client_Entity {
     @Column(nullable = false, length = 11, columnDefinition = "bpchar(11)")
     private String phone;
 
+    @Column(nullable = false,length = 120)
+    @JsonIgnore
+    @ToString.Exclude
+    private String password;
+    
+    @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schedule_Entity> schedules = new HashSet<>();

@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { YesNoDialogComponent } from '../../../commons/components/yes-no-dialog/yes-no-dialog.component';
 import { Subscription } from 'rxjs';
+import { ListClientResponse } from '../../../services/api-client/clients/client.models';
 
 @Component({
   selector: 'app-schedule-calendar',

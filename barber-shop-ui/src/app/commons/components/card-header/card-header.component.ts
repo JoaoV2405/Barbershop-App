@@ -8,5 +8,4 @@ import { MenuBarComponent } from "../menu-bar/menu-bar.component";
   styleUrl: './card-header.component.scss'
 })
 export class CardHeaderComponent {
-
 }

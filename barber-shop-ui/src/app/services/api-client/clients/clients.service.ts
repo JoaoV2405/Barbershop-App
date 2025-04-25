@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { IClientService } from './iclients.service';
 import { Observable } from 'rxjs';
-import { SaveClientRequest, SaveClientResponse, UpdateClientRequest, UpdateClientResponse, ListClientResponse, DetailClientResponse } from './client.models';
+import { SaveClientRequest, SaveClientResponse, UpdateClientRequest, UpdateClientResponse, ListClientResponse, DetailClientResponse, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from './client.models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { ClientScheduleAppointmentModel, ClientScheduleModel } from '../../../schedules/schedule.models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,12 @@ export class ClientsService implements IClientService{
   private readonly basePath = environment.apiUrl
 
   constructor(private http: HttpClient) { }
+  register(request: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.basePath}register`, request);
+  }
+  login(request: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.basePath}login`, request);
+  }
 
   save(request: SaveClientRequest): Observable<SaveClientResponse> {
     return this.http.post<SaveClientResponse>(`${this.basePath}clients`, request)
@@ -28,5 +35,9 @@ export class ClientsService implements IClientService{
   }
   findById(id: number): Observable<DetailClientResponse> {
     return this.http.get<DetailClientResponse>(`${this.basePath}clients/${id}`)
+  }
+  
+  findSchedulesById(): Observable<ClientScheduleModel[]> {
+    return this.http.get<ClientScheduleModel[]>(`${this.basePath}clients/schedules`)
   }
 }

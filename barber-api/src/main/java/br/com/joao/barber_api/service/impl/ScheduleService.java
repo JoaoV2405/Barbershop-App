@@ -18,11 +18,16 @@ public class ScheduleService implements IScheduleService{
         queryService.verifyIfScheduleExists(entity.getStartAt(), entity.getEndAt());
         return repository.save(entity);
     }
+    
     @Override
     public void delete(long id) {
         queryService.findById(id);
         repository.deleteById(id);
     }
+
+
+
+
 
     
 

@@ -1,19 +1,27 @@
 package br.com.joao.barber_api.controller;
 
+import br.com.joao.barber_api.controller.dto.ClientLoginDTO;
+import br.com.joao.barber_api.controller.dto.ClientRegisterDTO;
+
+import br.com.joao.barber_api.controller.dto.ScheduleDetailDTO;
+import br.com.joao.barber_api.entity.Client_Entity;
+import br.com.joao.barber_api.entity.Schedule_Entity;
+import br.com.joao.barber_api.mapper.ClientMapper;
+import br.com.joao.barber_api.mapper.IScheduleMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.joao.barber_api.controller.request.SaveClientRequest;
-import br.com.joao.barber_api.controller.request.UpdateClientRequest;
-import br.com.joao.barber_api.controller.response.ClientDetailResponse;
-import br.com.joao.barber_api.controller.response.ListClientResponse;
-import br.com.joao.barber_api.controller.response.SaveClientResponse;
-import br.com.joao.barber_api.controller.response.UpdateClientResponse;
-import br.com.joao.barber_api.entity.Client_Entity;
-import br.com.joao.barber_api.mapper.IClientMapper;
+import br.com.joao.barber_api.controller.dto.ClientDTO;
 import br.com.joao.barber_api.service.IClientService;
 import br.com.joao.barber_api.service.query.IClientQueryService;
+import br.com.joao.barber_api.service.query.IScheduleQueryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +35,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @RestController
@@ -37,15 +45,18 @@ public class ClientController {
     
     private final IClientService service;
     private final IClientQueryService queryService;
-    private final IClientMapper mapper;
+    private final IScheduleQueryService scheduleQueryService;
+    private final ClientMapper clientMapper;
+    @Qualifier("IScheduleMapper")
+    private final IScheduleMapper scheduleMapper;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    SaveClientResponse save (@RequestBody @Valid final SaveClientRequest request) {
-        var entity = mapper.toEntity(request);
+    ClientDTO save (@RequestBody @Valid final ClientRegisterDTO request) {
+        var entity = clientMapper.ClientRegisterDTOtoEntity(request);
         service.save(entity);
-        
-        return mapper.toSaveResponse(entity);
+
+        return clientMapper.Client_EntityToClientDTO(entity);
     }
 
     @DeleteMapping("{id}")
@@ -55,22 +66,41 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
-    ClientDetailResponse findById(@PathVariable final Long id) {
+    ClientDTO findById(@PathVariable("id") final Long id) {
         var entity = queryService.findById(id);
-        return mapper.toDetailResponse(entity);
+        return clientMapper.Client_EntityToClientDTO(entity);
+    }
+
+    @GetMapping("/schedules")
+    public ResponseEntity<?> getMySchedules() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado");
+        }
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof ClientLoginDTO userDetails) {
+            String userEmail = userDetails.getEmail();
+            Client_Entity client = queryService.findByEmail(userEmail);
+            List<Schedule_Entity> schedules = scheduleQueryService.findByClientId(client.getId());
+            List<ScheduleDetailDTO> scheduleDto = scheduleMapper.Schedule_EntityToScheduleDetailDTOList(schedules);
+            return ResponseEntity.ok(scheduleDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário inválido");
+        }
     }
 
     @GetMapping()
-    List<ListClientResponse> listClients() {
+    List<ClientDTO> listClients() {
         var entities = queryService.list();
-        return mapper.toListResponse(entities);
+        return clientMapper.Client_EntityToClientDTOList(entities);
     }
     
     @PutMapping("{id}")
-    UpdateClientResponse update(@PathVariable final long id, @RequestBody @Valid final UpdateClientRequest request){
-        var entity = mapper.toEntity(id, request);
-        service.update(entity);
-        return mapper.toUpdateResponse(entity);
+    ClientDTO update(@PathVariable final long id, @RequestBody @Valid final ClientDTO request){
+        var entity = clientMapper.toEntity(request);
+        service.update(id,entity);
+        return clientMapper.Client_EntityToClientDTO(entity);
     }
     
     

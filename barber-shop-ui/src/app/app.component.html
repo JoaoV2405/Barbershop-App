@@ -1,4 +1,12 @@
-<app-card-header>
-      {{ title }}
+<div *ngIf="showHeader">
+  <app-card-header>
+    {{ title }}
   </app-card-header>
-<router-outlet />
+</div>
+    
+<router-outlet/>
+   <!-- <app-login></app-login> -->
+
+
+
+      

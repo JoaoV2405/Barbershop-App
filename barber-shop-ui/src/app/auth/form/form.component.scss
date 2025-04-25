@@ -1,0 +1,27 @@
+.fil-col {
+    width: 100%;
+}
+
+.div-button{
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.mat-mdc-button{
+    height: 60px;
+    font-size: 20px;
+}
+
+.tab-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-link.active {
+
+  background-color: #ffabf3;
+  color: #5b005b;
+}

@@ -1,0 +1,100 @@
+<div class="form-container">
+    <div class="col mb-2">
+      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button [ngClass]="active == 'login' ? 'nav-link active' : 'nav-link'" id="tab-login"
+            (click)="onLoginTab()" mat-button>Login</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button [ngClass]="active == 'register' ? 'nav-link active' : 'nav-link'" id="tab-register"
+            (click)="onRegisterTab()" mat-button>Register</button>
+        </li>
+      </ul>
+    </div>
+    <div class=" container justify-content-center mt-5" >
+        <!-- LOGIN -->
+        <div *ngIf="active == 'login'" class="tab-pane fade show active ">
+          <form (ngSubmit)="onSubmitLogin()" #loginForm="ngForm">
+            <div class="col-12">
+              <mat-form-field class="fil-col" appearance="fill">
+                <mat-label>Usuário</mat-label>
+                <input matInput name="login" id="login" #loginModel="ngModel" [(ngModel)]="login.login" required>
+                @if (loginModel.hasError('required')) {
+                  <mat-error>Informe o nome de usuário</mat-error>
+                }
+              </mat-form-field>
+            </div>
+  
+            <div class="col-12">
+              <mat-form-field class="fil-col" appearance="fill">
+                <mat-label>Senha</mat-label>
+                <input type="password" matInput name="password" id="password" #passwordModel="ngModel"
+                  [(ngModel)]="login.password" required>
+                @if (passwordModel.hasError('required')) {
+                  <mat-error>Informe a senha</mat-error>
+                }
+              </mat-form-field>
+            </div>
+  
+            <div class="row">
+              <div class="col div-button">
+                <button type="submit" mat-flat-button color="primary">Entrar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+    <div class="container">
+        <!-- REGISTER -->
+        <div *ngIf="active == 'register'" class="tab-pane fade show active">
+          <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
+            <div class="col-12">
+              <mat-form-field class="fil-col">
+                <mat-label>Nome</mat-label>
+                <input matInput name="name" id="name" #nameModel="ngModel" [(ngModel)]="client.name" required>
+                @if (nameModel.hasError('required')) {
+                  <mat-error>Informe o nome do cliente</mat-error>
+                }
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="fil-col">
+                  <mat-label>E-mail</mat-label>
+                  <input matInput name="email" id="email" #emailModel="ngModel" [(ngModel)]="client.email" required email>
+                  @if (emailModel.hasError('required') || emailModel.hasError('email')) {
+                    <mat-error>Informe um email válido para o cliente</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="fil-col">
+                  <mat-label>Celular</mat-label>
+                  <input matInput name="phone" id="phone" #phoneModel="ngModel" [(ngModel)]="client.phone" required
+                    mask="(00) 00000-0000">
+                  @if (phoneModel.hasError('required')) {
+                    <mat-error>Informe o celular do cliente</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field class="fil-col">
+              <mat-label>Senha</mat-label>
+              <input type="password" matInput name="senha" id="senha" #senhaModel="ngModel"
+                [(ngModel)]="client.password" required>
+              @if (senhaModel.hasError('required')) {
+                <mat-error>Informe uma senha</mat-error>
+              }
+            </mat-form-field>
+  
+            <div class="row">
+              <div class="col div-button">
+                <button type="submit" mat-flat-button color="primary">Cadastrar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+  
+</div>
+  

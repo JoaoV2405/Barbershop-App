@@ -24,6 +24,13 @@ public class ClientQueryService implements IClientQueryService{
         // TODO Auto-generated method stub
         return this.repository.findById(id).orElseThrow(() -> new NotFoundException("Não foi encontrado id: "+ id));
     }
+    @Override
+    public Client_Entity findByEmail(String Email) {
+        // TODO Auto-generated method stub
+        return this.repository.findByEmail(Email).orElseThrow(() -> new NotFoundException("Não foi encontrado email: "+ Email));
+    }
+
+
 
     @Override
     public List<Client_Entity> list() {

@@ -3,9 +3,11 @@ package br.com.joao.barber_api.service.query;
 import java.util.List;
 
 import br.com.joao.barber_api.entity.Client_Entity;
+import ch.qos.logback.core.net.server.Client;
 
 public interface IClientQueryService {
     Client_Entity findById(final long id);
+    Client_Entity findByEmail(final String Email);
 
     List<Client_Entity> list();
 

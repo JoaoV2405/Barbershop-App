@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record ClientScheduleAppointmentResponse(
-    @JsonProperty("id")
+        @JsonProperty("id")
         Long id,
         @JsonProperty("day")
         Integer day,

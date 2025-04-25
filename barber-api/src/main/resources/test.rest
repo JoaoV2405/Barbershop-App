@@ -1,2 +1,12 @@
-GET http://localhost:8080/schedules/2003/12
+POST http://localhost:8080/login
+Content-Type: application/json
 
+{
+ "login": "eu@mail.com",
+ "password": "senha"
+}
+
+
+###
+GET http://localhost:8080/clients/schedules
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJldUBtYWlsLmNvbSIsImlhdCI6MTc0NDI5Njg2MCwiZXhwIjoxNzQ0MzAwNDYwLCJuYW1lIjoiSk9iYSIsInBob25lIjoiOTk5OTkwOTA5OTkifQ.f0qFeFKTpJ7JSuo2KvgAa5TS24HXfzSj1CrlEr1Lxps

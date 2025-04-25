@@ -12,6 +12,12 @@ export interface ClientScheduleAppointmentModel {
     clientId: number
     clientName: string
 }
+export interface ClientScheduleModel{
+    id: number
+    day: number
+    startAt: Date
+    endAt: Date
+}
 
 export interface SaveScheduleModel {
     startAt?: Date

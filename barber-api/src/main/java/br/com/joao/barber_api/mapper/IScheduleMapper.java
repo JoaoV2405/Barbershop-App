@@ -2,6 +2,9 @@ package br.com.joao.barber_api.mapper;
 
 import java.util.List;
 
+import br.com.joao.barber_api.controller.dto.ClientDTO;
+import br.com.joao.barber_api.controller.dto.ScheduleDetailDTO;
+import br.com.joao.barber_api.entity.Client_Entity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -20,6 +23,13 @@ public interface IScheduleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client.id", source = "clientId")
     Schedule_Entity toEntity(final SaveScheduleRequest request);
+
+    @Mapping(target = "client.id", ignore = true)
+    @Mapping(target = "day", expression = "java(entity.getStartAt().getDayOfMonth())")
+
+    ScheduleDetailDTO toDTO(final Schedule_Entity entity);
+    List<ScheduleDetailDTO> Schedule_EntityToScheduleDetailDTOList(List<Schedule_Entity> schedules);
+
 
     @Mapping(target = "clientId", source = "client.id")
     SaveScheduleResponse toSaveResponse(final Schedule_Entity entity);
